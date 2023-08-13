@@ -32,6 +32,15 @@ fn main() {
         println!(" arr(after ) = {:?}, elapsed = {:?}", &arr[0..10], start.elapsed());
     }
     {
+        let mut arr = base_arr.clone();
+        println!(" arr(before) = {:?}", &arr[0..10]);
+
+        let start = Instant::now();
+        sort::heap_sort(&mut arr);
+
+        println!(" arr(after ) = {:?}, elapsed = {:?}", &arr[0..10], start.elapsed());
+    }
+    {
         let solver = MinimumCostSort {
             arr: &[
                 (2, "scale"),

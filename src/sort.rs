@@ -44,6 +44,73 @@ pub fn shell_sort<T>(slice: &mut[T]) where
     }
 }
 
+struct HeapSort<'a, T> where
+    T: Copy + Ord {
+    arr: &'a mut [T],
+}
+
+impl<T> HeapSort<'_, T> where
+    T: Copy + Ord {
+
+    fn build_heap(&mut self) {
+        let mut i = self.arr.len() / 2;
+        while {
+            i -= 1;
+            self.heapify(i, self.arr.len());
+            i > 0
+        } {}
+    }
+
+    fn heapify(&mut self, idx: usize, max: usize) {
+        let left = 2 * idx + 1;
+        let right = 2 * idx + 2;
+        let mut largest;
+
+        if left < max && self.arr[left] > self.arr[idx] {
+            largest = left;
+        } else {
+            largest = idx;
+        }
+
+        if right < max && self.arr[right] > self.arr[largest] {
+            largest = right;
+        }
+
+        if largest != idx {
+            let tmp = self.arr[idx];
+            self.arr[idx] = self.arr[largest];
+            self.arr[largest] = tmp;
+
+            self.heapify(largest, max);
+        }
+    }
+
+    fn sort(&mut self) {
+        self.build_heap();
+        let mut i = self.arr.len() - 1;
+        while i >= 1 {
+            let tmp = self.arr[0];
+            self.arr[0] = self.arr[i];
+            self.arr[i] = tmp;
+
+            self.heapify(0, i);
+            i -= 1;
+        }
+    }
+}
+
+pub fn heap_sort<T>(arr :&mut [T]) where
+    T: Copy + Ord {
+    if arr.len() == 0 {
+        return
+    };
+
+    let mut solver = HeapSort {
+        arr: arr,
+    };
+    solver.sort();
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -63,10 +130,26 @@ mod tests {
     }
 
     #[test]
+    fn test_heap_sort() {
+        let mut flag = false;
+        let mut arr = [6,2,4,5,3,1];
+        heap_sort(&mut arr);
+
+        for i in 1..arr.len() {
+            if arr[i - 1] > arr[i] {
+                flag = true;
+            }
+        }
+        assert!(!flag);
+    }
+
+    #[test]
     fn test_zero() {
         let mut arr: [i32; 0] = [];
 
         insertion_sort(&mut arr);
+        heap_sort(&mut arr);
         shell_sort(&mut arr);
     }
+
 }
