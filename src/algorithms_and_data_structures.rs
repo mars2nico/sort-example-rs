@@ -1,17 +1,16 @@
 // *practice* algorithms and data structures
 
 use std::cmp;
-use std::hash::Hash;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 pub struct MinimumCostSort<'a, T> where
-    T: Copy + Hash + Ord {
+    T: Copy + Ord {
     pub arr: &'a [T],
 }
 
 impl<T> MinimumCostSort<'_, T> where
-    T: Copy + Hash + Ord {
+    T: Copy + Ord {
 
     pub fn solve<Eval>(&self, eval: Eval) -> Result<i32> where
         Eval: Fn(&T) -> i32 {
