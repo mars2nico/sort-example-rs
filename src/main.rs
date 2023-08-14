@@ -1,10 +1,10 @@
-use std::time::Instant;
-use algorithms_and_data_structures::MinimumCostSort;
-use ::rand::thread_rng;
 use ::rand::seq::SliceRandom;
+use ::rand::thread_rng;
+use algorithms_and_data_structures::MinimumCostSort;
+use std::time::Instant;
 
-mod sort;
 mod algorithms_and_data_structures;
+mod sort;
 
 fn main() {
     let mut rng = thread_rng();
@@ -20,7 +20,11 @@ fn main() {
         let start = Instant::now();
         sort::insertion_sort(&mut arr);
 
-        println!(" arr(after ) = {:?}, elapsed = {:?}", &arr[0..10], start.elapsed());
+        println!(
+            " arr(after ) = {:?}, elapsed = {:?}",
+            &arr[0..10],
+            start.elapsed()
+        );
     }
     {
         let mut arr = base_arr.clone();
@@ -29,7 +33,11 @@ fn main() {
         let start = Instant::now();
         sort::shell_sort(&mut arr);
 
-        println!(" arr(after ) = {:?}, elapsed = {:?}", &arr[0..10], start.elapsed());
+        println!(
+            " arr(after ) = {:?}, elapsed = {:?}",
+            &arr[0..10],
+            start.elapsed()
+        );
     }
     {
         let mut arr = base_arr.clone();
@@ -38,7 +46,11 @@ fn main() {
         let start = Instant::now();
         sort::heap_sort(&mut arr);
 
-        println!(" arr(after ) = {:?}, elapsed = {:?}", &arr[0..10], start.elapsed());
+        println!(
+            " arr(after ) = {:?}, elapsed = {:?}",
+            &arr[0..10],
+            start.elapsed()
+        );
     }
     {
         let solver = MinimumCostSort {
@@ -49,11 +61,10 @@ fn main() {
                 (10, "paper"),
                 (7, "tape"),
                 (9, "ink"),
-            ]
-            // (0, 2), (1, 1), (2, 8), (3,10), (4, 7), (5, 9)
-            //
-            // 0:      1:      2:      3:      4:      5:
-            // (1, 1), (0, 2), (4, 7), (2, 8), (5, 9), (3,10)
+            ], // (0, 2), (1, 1), (2, 8), (3,10), (4, 7), (5, 9)
+               //
+               // 0:      1:      2:      3:      4:      5:
+               // (1, 1), (0, 2), (4, 7), (2, 8), (5, 9), (3,10)
         };
         match solver.solve(|&x| x.0) {
             Ok(result) => println!("{}", result),

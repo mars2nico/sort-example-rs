@@ -4,16 +4,21 @@ use std::cmp;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
-pub struct MinimumCostSort<'a, T> where
-    T: Copy + Ord {
+pub struct MinimumCostSort<'a, T>
+where
+    T: Copy + Ord,
+{
     pub arr: &'a [T],
 }
 
-impl<T> MinimumCostSort<'_, T> where
-    T: Copy + Ord {
-
-    pub fn solve<Eval>(&self, eval: Eval) -> Result<i32> where
-        Eval: Fn(&T) -> i32 {
+impl<T> MinimumCostSort<'_, T>
+where
+    T: Copy + Ord,
+{
+    pub fn solve<Eval>(&self, eval: Eval) -> Result<i32>
+    where
+        Eval: Fn(&T) -> i32,
+    {
         let mut ans = 0;
         let mut arr = Vec::from_iter(self.arr.iter().enumerate());
         let mut sorted = arr.clone();
@@ -57,7 +62,7 @@ mod tests {
     #[test]
     fn test_minumum_cost_sort1() {
         let solver = MinimumCostSort {
-            arr: &[1, 5, 3, 4, 2]
+            arr: &[1, 5, 3, 4, 2],
         };
         match solver.solve(|&x| x) {
             Ok(result) => assert_eq!(result, 7),
@@ -68,7 +73,7 @@ mod tests {
     #[test]
     fn test_minumum_cost_sort2() {
         let solver = MinimumCostSort {
-            arr: &[4, 3, 2, 7, 1, 6, 5]
+            arr: &[4, 3, 2, 7, 1, 6, 5],
         };
         match solver.solve(|&x| x) {
             Ok(result) => assert_eq!(result, 24),
@@ -79,7 +84,7 @@ mod tests {
     #[test]
     fn test_minumum_cost_sort3() {
         let solver = MinimumCostSort {
-            arr: &[2, 1, 8, 10, 7, 9]
+            arr: &[2, 1, 8, 10, 7, 9],
         };
         match solver.solve(|&x| x) {
             Ok(result) => assert_eq!(result, 49),

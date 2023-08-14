@@ -2,13 +2,17 @@
 ///
 /// TODO avoid Copy Trait
 
-pub fn insertion_sort<T>(slice: &mut[T]) where
-    T: Copy + Ord {
+pub fn insertion_sort<T>(slice: &mut [T])
+where
+    T: Copy + Ord,
+{
     _insertion_sort(slice, 1);
 }
 
-fn _insertion_sort<T>(slice: &mut[T], gap: usize) where
-    T: Copy + Ord {
+fn _insertion_sort<T>(slice: &mut [T], gap: usize)
+where
+    T: Copy + Ord,
+{
     for i in gap..slice.len() {
         let v = slice[i];
         let mut j = i;
@@ -21,9 +25,12 @@ fn _insertion_sort<T>(slice: &mut[T], gap: usize) where
 }
 
 // TODO: consider another method
-pub fn shell_sort<T>(slice: &mut[T]) where
-    T: Copy + Ord {
+pub fn shell_sort<T>(slice: &mut [T])
+where
+    T: Copy + Ord,
+{
     // g[0] = 0, g[N+1] = 3 * g[N] + 1
+    #[rustfmt::skip]
     let g: [usize; 41] = [
         0,1,4,13,40,
         121,364,1093,3280,
@@ -44,14 +51,17 @@ pub fn shell_sort<T>(slice: &mut[T]) where
     }
 }
 
-struct HeapSort<'a, T> where
-    T: Copy + Ord {
+struct HeapSort<'a, T>
+where
+    T: Copy + Ord,
+{
     arr: &'a mut [T],
 }
 
-impl<T> HeapSort<'_, T> where
-    T: Copy + Ord {
-
+impl<T> HeapSort<'_, T>
+where
+    T: Copy + Ord,
+{
     fn build_heap(&mut self) {
         let mut i = self.arr.len() / 2;
         while {
@@ -77,9 +87,7 @@ impl<T> HeapSort<'_, T> where
         }
 
         if largest != idx {
-            let tmp = self.arr[idx];
-            self.arr[idx] = self.arr[largest];
-            self.arr[largest] = tmp;
+            self.arr.swap(idx, largest);
 
             self.heapify(largest, max);
         }
@@ -89,9 +97,7 @@ impl<T> HeapSort<'_, T> where
         self.build_heap();
         let mut i = self.arr.len() - 1;
         while i >= 1 {
-            let tmp = self.arr[0];
-            self.arr[0] = self.arr[i];
-            self.arr[i] = tmp;
+            self.arr.swap(0, i);
 
             self.heapify(0, i);
             i -= 1;
@@ -99,15 +105,15 @@ impl<T> HeapSort<'_, T> where
     }
 }
 
-pub fn heap_sort<T>(arr :&mut [T]) where
-    T: Copy + Ord {
-    if arr.len() == 0 {
-        return
+pub fn heap_sort<T>(arr: &mut [T])
+where
+    T: Copy + Ord,
+{
+    if arr.is_empty() {
+        return;
     };
 
-    let mut solver = HeapSort {
-        arr: arr,
-    };
+    let mut solver = HeapSort { arr };
     solver.sort();
 }
 
@@ -118,7 +124,7 @@ mod tests {
     #[test]
     fn test_insertion_sort() {
         let mut flag = false;
-        let mut arr = [6,2,4,5,3,1];
+        let mut arr = [6, 2, 4, 5, 3, 1];
         insertion_sort(&mut arr);
 
         for i in 1..arr.len() {
@@ -132,7 +138,7 @@ mod tests {
     #[test]
     fn test_heap_sort() {
         let mut flag = false;
-        let mut arr = [6,2,4,5,3,1];
+        let mut arr = [6, 2, 4, 5, 3, 1];
         heap_sort(&mut arr);
 
         for i in 1..arr.len() {
@@ -151,5 +157,4 @@ mod tests {
         heap_sort(&mut arr);
         shell_sort(&mut arr);
     }
-
 }
